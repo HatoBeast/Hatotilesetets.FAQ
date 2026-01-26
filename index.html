@@ -189,25 +189,63 @@
 
     /* 目次 */
     .toc{
-      padding:8px 8px 14px;
+      padding: 10px 10px 14px;
     }
-    .toc a{
-      display:block;
-      padding:10px 12px;
-      border-radius: 14px;
-      color:rgba(16,52,58,0.92);
-      line-height:1.35;
-    }
-    .toc a:hover{
-      text-decoration:none;
-      background: rgba(59,199,214,0.12);
-    }
+    
+    /* グループ見出し：目立たせつつ、うるさくしない */
     .toc .group{
-      margin:10px 8px 6px;
-      font-size:12px;
-      color:rgba(14, 89, 96, 0.75);
-      letter-spacing:0.06em;
-      text-transform:uppercase;
+      margin: 14px 6px 8px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(14, 89, 96, 0.14);
+    
+      font-size: 12.5px;
+      font-weight: 800;
+      color: rgba(14, 89, 96, 0.88);
+      letter-spacing: 0.06em;
+      text-transform: none;   /* 英語だけ大文字にしたいなら戻してOK */
+    }
+    
+    /* 最初のグループだけ区切り線なし */
+    .toc .group:first-child{
+      border-top: none;
+      padding-top: 0;
+      margin-top: 6px;
+    }
+    
+    /* リンク：背景は薄く、面積感を減らす（ベタ塗り感を消す） */
+    .toc a{
+      display: block;
+      padding: 9px 10px;
+      margin: 4px 6px;                 /* 背景の面積を分割して軽く見せる */
+      border-radius: 10px;
+    
+      color: rgba(16, 52, 58, 0.92);
+      line-height: 1.35;
+      text-decoration: none;
+    
+      background: transparent;         /* まず透明が基本 */
+      border: 1.5px solid rgba(14, 89, 96, 0.10);
+    }
+    
+    /* 交互：背景ではなく “薄い色味の差” 程度にする */
+    .toc a:nth-of-type(odd){
+      background: rgba(59, 199, 214, 0.01);
+    }
+    
+    .toc a:nth-of-type(even){
+      background: rgba(59, 199, 214, 0.10);
+    }
+    
+    /* hover：背景を少し上げ、枠も少し濃く（押せる感） */
+    .toc a:hover{
+      background: rgba(59, 199, 214, 0.14);
+      border-color: rgba(14, 89, 96, 0.18);
+    }
+    
+    /* キーボード操作時の視認性（アクセシビリティ） */
+    .toc a:focus-visible{
+      outline: none;
+      box-shadow: 0 0 0 5px rgba(59, 199, 214, 0.35);
     }
 
     /* メイン */
@@ -403,7 +441,6 @@
   margin: 12px 0;
   border-radius: 8px;
 }
-
   </style>
 </head>
 
@@ -413,7 +450,7 @@
       <h1 class="title">『ハト タイルセット』シリーズ ヘルプ</h1>
       <p class="subtitle">
         BOOTHおよびDLsiteで販売している商品に関するヘルプページです。<br>
-        ⚠️Steamなどで販売しているタイルセットは、このページ内容は該当しません。販売者様による規約が別途設けられておりますので、そちらの利用規約を厳守して下さい。
+        ⚠️Steamなどで販売しているタイルセットは、販売者様による規約が別途設けられておりますので、そちらの利用規約を厳守して下さい。
       </p>
 
       <div class="topbar">
@@ -433,29 +470,32 @@
       <aside class="panel" aria-label="目次">
         <h2>目次</h2>
         <nav class="toc" id="toc">
-          <div class="group">利用・ライセンス</div>
+          <div class="group">利用規約</div>
           <a href="#q01">Q1. ◯◯に使ってもいいですか？</a>
           <a href="#q02">Q2. クレジット表記は必要ですか？</a>
-          <a href="#q03">Q3. 素材を加工してもいいですか？</a>
+          <a href="#q03">Q3. 加工してもいいですか？</a>
           <a href="#q04">Q4. 年齢制限のある作品に使用できますか？</a>
+          <a href="#q05">Q5. 素材を使用した作品を販売してもいいですか？</a>
+          <a href="#q06">Q6. 案件にて素材を使用できますか？</a>
+          <a href="#q11">Q11. AI・人工知能に利用してもいいですか？</a>
+          <a href="#q07">Q7. 政治等の意見が分かれるコンテンツに使用してもいいですか？</a>
+          <a href="#q08">Q8. 広告画像に使用してもいいですか？</a>
+          <div class="group">素材の内容</div>
+          <a href="#q09">Q9. 素材に外部商品やRTPは含まれていますか？</a>
+          <a href="#q10">Q10. 素材にAI・人工知能による生成物は含まれていますか？</a>
+          <div class="group">販売サイト</div>
+          <a href="#q11">Q11. 販売サイトはどこですか？</a>
+          <a href="#q12">Q12. 領収書(インボイス対応)は発行できますか？</a>
+          <a href="#q14">Q14. 素材の紹介記事を作成してもいいですか？</a>
+          
+          <div class="group">トラブル</div>
+          <a href="#q09">Q9. ダウンロードや解凍ができません。</a>
+          <a href="#q09">Q9. 素材の不備を見つけました。</a>
 
-          <div class="group">購入・支払い</div>
-          <a href="#q05">Q5. 支払い方法は何がありますか？</a>
-          <a href="#q06">Q6. 領収書（インボイス対応）は発行できますか？</a>
+          <div class="group">作者・その他</div>
+          <a href="#q13">Q13. 素材制作者にマップの組み立てやタイルセットの制作を依頼できますか？</a>
+          <a href="#q12">Q12. 素材に描かれている植物の種類を教えて下さい。</a>
 
-          <div class="group">ダウンロード・データ</div>
-          <a href="#q07">Q7. ダウンロード期限・回数制限はありますか？</a>
-          <a href="#q08">Q8. 画像サイズや形式は何ですか？</a>
-
-          <div class="group">トラブル・返金</div>
-          <a href="#q09">Q9. ダウンロードできません / 破損しています</a>
-          <a href="#q10">Q10. 返金はできますか？</a>
-
-          <div class="group">AI・学習利用</div>
-          <a href="#q11">Q11. AI学習・AI生成への利用は可能ですか？</a>
-
-          <div class="group">アカウント・その他</div>
-          <a href="#q12">Q12. 購入した素材は複数端末で使えますか？</a>
         </nav>
       </aside>
 
@@ -487,7 +527,7 @@
               </div>
               <div class="alert alert-warning">
                 <strong>法人のお客様へ</strong><br>
- メタバース/バーチャルオフィスでのご利用に制限は設けておりませんが、非常に規約違反が発生しやすい環境ですので、必ずインターネット上の素材利用に関する知識のある方がご利用ください。責任を負えない方の安易な素材利用による規約違反等の問題を防止いただけますよう、十分にご注意ください。当ショップの素材は個人/小規模なサークル様に向けて制作されており、企業/会社でのご利用は想定しておりません。必ず他の責任者の方ともご相談の上でご利用ください。
+ メタバース/バーチャルオフィスでのご利用に制限は設けておりませんが、非常に規約違反が発生しやすい環境ですので、必ずインターネット上の素材利用に関する知識のある方がご利用ください。責任を負えない方の安易な素材利用による規約違反等を防止いただけますよう、十分にご注意ください。当ショップの素材は個人/小規模なサークル様に向けて制作されており、企業/会社でのご利用は想定しておりません。必ず他の責任者の方ともご相談の上でご利用ください。
 </div>
               <div class="meta">
                 <span class="pill"><strong>カテゴリ</strong> 利用・ライセンス</span>
@@ -518,7 +558,7 @@
             </article>
 
             <article class="qa-item" id="q03" data-q="画像 加工 縮小 拡大 回転 色 変更 影 光 追加 トリミング ファイル 名 前 透過 加筆 合成 リサイズ 色調" data-a="素材加工は許可しています。">
-              <h3 class="q"><span class="badge">Q3</span>素材を加工してもいいですか？</h3>
+              <h3 class="q"><span class="badge">Q3</span>加工してもいいですか？</h3>
               <div class="a">
               <b>はい。</b><hr>
                 素材の加工として縮小、拡大、回転、色変更、影や光の追加、トリミング、ファイル名変更、透過加工、一部を切り抜いて別のパーツとして加工する行為は許可しております。<br>
@@ -543,15 +583,15 @@
               </div>
             </article>
 
-            <article class="qa-item" id="q05" data-q="支払い 決済 クレカ paypal コンビニ" data-a="一般的な決済手段を用意。">
-              <h3 class="q"><span class="badge">Q5</span>支払い方法は何がありますか？</h3>
+            <article class="qa-item" id="q05" data-q="手作り 手描き 描画 AI 人工知能 生成 手打ち テクスチャ RTP ランタイム パッケージ ツクール デフォ デフォルト 素材 初期 RPG 外部" data-a="完全手作り">
+              <h3 class="q"><span class="badge">Q5</span>素材に外部商品やRTPは含まれていますか？</h3>
               <div class="a">
-                代表的な支払い方法に対応しています（ショップの仕様により一部異なる場合があります）。
-                <ul>
-                  <li>クレジットカード</li>
-                  <li>PayPal / 各種オンライン決済</li>
-                  <li>コンビニ決済（対応している場合）</li>
-                </ul>
+                <b>いいえ。</b>
+                <hr>
+                『ハト タイルセット』シリーズや当ショップの効果音素材は、製作者ハトによる完全な描き下ろし(手作り)素材です。<br>
+                <p class="note">
+                素材内に外部素材(フォントやテクスチャなど)が含まれる場合は、全てクレジット表記不要の商用利用可能なものを、利用規約に沿って使用させて頂いております。<br>
+                サンプルとして同梱されているゲームフォルダには、一部に「ツクールシリーズ」のデフォルト素材が含まれておりますが、素材とサンプルゲームのフォルダは明確に区別されており、利用規約テキストファイルには素材ファイルの内訳を記載しております。</p>
               </div>
               <div class="meta">
                 <span class="pill"><strong>カテゴリ</strong> 購入・支払い</span>
