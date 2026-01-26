@@ -1,0 +1,700 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>FAQ | ハト タイルセット</title>
+  <meta name="description" content="ハト タイルセットのよくある質問（FAQ）。ご利用方法、ライセンス、支払い、ダウンロード、不具合対応など。" />
+
+  <style>
+    :root{
+      --sea:#3BC7D6;         /* 基調色（海） */
+      --sand:#F9ECC4;        /* 基調色（砂） */
+      --deep:#0E5960;        /* 文字の濃色 */
+      --ink:#10343A;
+      --muted:#5D7377;
+
+      --bg:#F7FDFF;
+      --card:#FFFFFF;
+      --line:rgba(14, 89, 96, 0.14);
+
+      --qA:#FFFFFF;
+      --qB:rgba(59,199,214,0.10); /* 交互背景色 */
+      --shadow:0 14px 40px rgba(16, 52, 58, 0.12);
+      --radius:18px;
+
+      --focus:rgba(59,199,214,0.45);
+      --max:1060px;
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Hiragino Kaku Gothic ProN",
+                   "Hiragino Sans", "Noto Sans JP", "Meiryo", Arial, sans-serif;
+      color:var(--ink);
+      background:
+        radial-gradient(1200px 520px at 10% -10%, rgba(59,199,214,0.35), transparent 70%),
+        radial-gradient(900px 520px at 90% 0%, rgba(249,236,196,0.55), transparent 65%),
+        linear-gradient(180deg, rgba(59,199,214,0.10), rgba(247,253,255,1) 35%);
+    }
+
+    a{ color:inherit; text-decoration:none; }
+    a:hover{ text-decoration:underline; }
+
+    .wrap{ max-width:var(--max); margin:0 auto; padding:28px 18px 40px; }
+
+    header{
+      background: linear-gradient(135deg, rgba(59,199,214,0.95), rgba(249,236,196,0.78));
+      border:1px solid rgba(255,255,255,0.35);
+      border-radius: calc(var(--radius) + 6px);
+      box-shadow: var(--shadow);
+      padding:26px 22px;
+      position:relative;
+      overflow:hidden;
+    }
+    header::after{
+      content:"";
+      position:absolute;
+      inset:-80px -120px auto auto;
+      width:260px; height:260px;
+      border-radius:999px;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.55), rgba(255,255,255,0) 70%);
+      transform: rotate(12deg);
+      pointer-events:none;
+    }
+
+    .title{
+      margin:0;
+      font-size: clamp(22px, 2.6vw, 30px);
+      letter-spacing:0.02em;
+      color:var(--deep);
+      font-weight:800;
+    }
+    .subtitle{
+      margin:8px 0 0;
+      color:rgba(14, 89, 96, 0.85);
+      line-height:1.6;
+      font-size:14.5px;
+      max-width: 70ch;
+    }
+
+    .topbar{
+      margin-top:16px;
+      display:flex;
+      gap:14px;
+      flex-wrap:wrap;
+      align-items:stretch;
+      justify-content:space-between;
+    }
+
+    .search{
+      flex: 1 1 520px;
+      background: rgba(255,255,255,0.72);
+      border: 1px solid rgba(255,255,255,0.55);
+      border-radius: 999px;
+      padding:10px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      box-shadow: 0 10px 22px rgba(16, 52, 58, 0.10);
+      backdrop-filter: blur(8px);
+    }
+    .search svg{ flex:0 0 auto; opacity:0.75; }
+    .search input{
+      width:100%;
+      border:0;
+      outline:none;
+      background:transparent;
+      font-size:15px;
+      color:var(--ink);
+      padding:10px 6px;
+    }
+    .search input::placeholder{ color: rgba(16,52,58,0.55); }
+    .search input:focus{
+      outline:none;
+    }
+    .search:focus-within{
+      box-shadow: 0 0 0 4px var(--focus), 0 12px 30px rgba(16, 52, 58, 0.10);
+    }
+
+    .chips{
+      flex: 0 0 auto;
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    .chip{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:10px 12px;
+      background: rgba(255,255,255,0.62);
+      border: 1px solid rgba(255,255,255,0.55);
+      border-radius:999px;
+      font-size:13px;
+      color:rgba(14, 89, 96, 0.92);
+      box-shadow: 0 10px 20px rgba(16, 52, 58, 0.08);
+      user-select:none;
+    }
+    .chip kbd{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size:12px;
+      background: rgba(59,199,214,0.16);
+      border: 1px solid rgba(14,89,96,0.18);
+      padding:2px 6px;
+      border-radius:8px;
+      color:rgba(14, 89, 96, 0.95);
+    }
+
+    .grid{
+      margin-top:18px;
+      display:grid;
+      grid-template-columns: 340px 1fr;
+      gap:18px;
+      align-items:start;
+    }
+    @media (max-width: 900px){
+      .grid{ grid-template-columns: 1fr; }
+    }
+
+    .panel{
+      background: rgba(255,255,255,0.82);
+      border:1px solid rgba(255,255,255,0.55);
+      border-radius: var(--radius);
+      box-shadow: 0 12px 30px rgba(16, 52, 58, 0.08);
+      overflow:hidden;
+      backdrop-filter: blur(10px);
+    }
+    .panel h2{
+      margin:0;
+      padding:16px 16px 12px;
+      font-size:15px;
+      color:rgba(14, 89, 96, 0.95);
+      border-bottom:1px solid var(--line);
+      background: linear-gradient(180deg, rgba(249,236,196,0.55), rgba(255,255,255,0));
+    }
+
+    /* 目次 */
+    .toc{
+      padding:8px 8px 14px;
+    }
+    .toc a{
+      display:block;
+      padding:10px 12px;
+      border-radius: 14px;
+      color:rgba(16,52,58,0.92);
+      line-height:1.35;
+    }
+    .toc a:hover{
+      text-decoration:none;
+      background: rgba(59,199,214,0.12);
+    }
+    .toc .group{
+      margin:10px 8px 6px;
+      font-size:12px;
+      color:rgba(14, 89, 96, 0.75);
+      letter-spacing:0.06em;
+      text-transform:uppercase;
+    }
+
+    /* メイン */
+    main{
+      padding:10px;
+    }
+    .hint{
+      margin:2px 6px 14px;
+      font-size:13px;
+      color:var(--muted);
+      line-height:1.6;
+    }
+
+    .qa{
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      overflow:hidden;
+    }
+
+    .qa-item{
+      padding:18px 18px 16px;
+      border-top:1px solid var(--line);
+      scroll-margin-top: 14px;
+    }
+    .qa-item:first-child{ border-top:0; }
+    .qa-item:nth-child(odd){ background: var(--qA); }
+    .qa-item:nth-child(even){ background: var(--qB); }
+
+    .q{
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+      margin:0;
+      font-size:16px;
+      font-weight:800;
+      color:rgba(14, 89, 96, 0.98);
+      letter-spacing:0.01em;
+    }
+    .badge{
+      flex:0 0 auto;
+      width:30px;
+      height:30px;
+      display:grid;
+      place-items:center;
+      border-radius:10px;
+      background: linear-gradient(180deg, rgba(59,199,214,0.35), rgba(249,236,196,0.55));
+      border:1px solid rgba(14, 89, 96, 0.14);
+      color:rgba(14,89,96,0.95);
+      font-weight:900;
+      font-size:13px;
+      margin-top: -2px;
+    }
+
+    .a{
+      margin:10px 0 0;
+      padding-left:42px;
+      color:rgba(16,52,58,0.92);
+      line-height:1.85;
+      font-size:14.5px;
+    }
+    .a ul{ margin:10px 0 0; padding-left: 18px; }
+    .a li{ margin:6px 0; }
+
+    .meta{
+      margin-top:12px;
+      padding-left:42px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      align-items:center;
+      color:rgba(93,115,119,0.95);
+      font-size:12.5px;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(14,89,96,0.18);
+      background: rgba(255,255,255,0.65);
+    }
+    .pill strong{ color:rgba(14, 89, 96, 0.95); }
+
+    .backtop{
+      margin-left:auto;
+      color:rgba(14, 89, 96, 0.9);
+      border:1px solid rgba(14,89,96,0.18);
+      background: rgba(255,255,255,0.65);
+      padding:6px 10px;
+      border-radius:999px;
+    }
+    .backtop:hover{
+      text-decoration:none;
+      background: rgba(59,199,214,0.14);
+    }
+
+    footer{
+      margin-top:18px;
+      text-align:center;
+      color:rgba(93,115,119,0.92);
+      font-size:12.5px;
+      padding:18px 8px 0;
+    }
+    footer .line{
+      height:1px;
+      background: linear-gradient(90deg, transparent, rgba(14,89,96,0.25), transparent);
+      margin:0 auto 14px;
+      max-width: var(--max);
+    }
+
+    /* 検索ハイライト */
+    mark{
+      background: rgba(249,236,196,0.85);
+      padding:0 2px;
+      border-radius:6px;
+    }
+
+    /* 非表示 */
+    .hidden{ display:none !important; }
+  </style>
+</head>
+
+<body>
+  <div class="wrap" id="top">
+    <header>
+      <h1 class="title">よくある質問（FAQ）</h1>
+      <p class="subtitle">
+        画像素材の購入・利用に関する質問をまとめています。検索か目次から目的の項目へ移動できます。
+      </p>
+
+      <div class="topbar">
+        <div class="search" role="search" aria-label="FAQページ内検索">
+          <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
+            <path fill="currentColor" d="M10 18a8 8 0 1 1 5.293-14.004A8 8 0 0 1 10 18Zm11.707 2.293-5.12-5.12a10 10 0 1 0-1.414 1.414l5.12 5.12a1 1 0 0 0 1.414-1.414Z"/>
+          </svg>
+          <input id="faqSearch" type="search" placeholder="キーワードで検索（例：商用利用 / クレジット / 返金 / AI）" autocomplete="off" />
+        </div>
+
+        <div class="chips" aria-label="ヒント">
+          <div class="chip">検索: <kbd>Ctrl</kbd> + <kbd>F</kbd> でも可</div>
+          <div class="chip">目次からジャンプ可能</div>
+        </div>
+      </div>
+    </header>
+
+    <div class="grid">
+      <!-- 目次 -->
+      <aside class="panel" aria-label="目次">
+        <h2>目次（質問一覧）</h2>
+        <nav class="toc" id="toc">
+          <div class="group">利用・ライセンス</div>
+          <a href="#q01">Q1. 商用利用はできますか？</a>
+          <a href="#q02">Q2. クレジット表記は必要ですか？</a>
+          <a href="#q03">Q3. 再配布・転載は禁止（禁止事項）は？</a>
+          <a href="#q04">Q4. 編集・加工はどこまで可能ですか？</a>
+
+          <div class="group">購入・支払い</div>
+          <a href="#q05">Q5. 支払い方法は何がありますか？</a>
+          <a href="#q06">Q6. 領収書（インボイス対応）は発行できますか？</a>
+
+          <div class="group">ダウンロード・データ</div>
+          <a href="#q07">Q7. ダウンロード期限・回数制限はありますか？</a>
+          <a href="#q08">Q8. 画像サイズや形式は何ですか？</a>
+
+          <div class="group">トラブル・返金</div>
+          <a href="#q09">Q9. ダウンロードできません / 破損しています</a>
+          <a href="#q10">Q10. 返金はできますか？</a>
+
+          <div class="group">AI・学習利用</div>
+          <a href="#q11">Q11. AI学習・AI生成への利用は可能ですか？</a>
+
+          <div class="group">アカウント・その他</div>
+          <a href="#q12">Q12. 購入した素材は複数端末で使えますか？</a>
+        </nav>
+      </aside>
+
+      <!-- 本文 -->
+      <section class="panel" aria-label="FAQ本文">
+        <h2>回答</h2>
+        <main>
+          <p class="hint" id="resultHint">
+            検索すると、該当しない質問は非表示になります。該当件数は検索欄の下に表示されます。
+          </p>
+
+          <div class="qa" id="qa">
+            <article class="qa-item" id="q01" data-q="商用利用 ビジネス 収益 化 ゲーム 同人" data-a="商用利用は可能です。利用範囲と禁止事項をご確認ください。">
+              <h3 class="q"><span class="badge">Q1</span>商用利用はできますか？</h3>
+              <div class="a">
+                はい、商用利用は可能です。例えば以下の用途で利用できます。
+                <ul>
+                  <li>ゲーム・アプリ・Webサイト・動画（収益化含む）</li>
+                  <li>広告・バナー・SNS投稿・配信サムネイル</li>
+                  <li>同人作品・有償頒布物（素材そのものの再配布は不可）</li>
+                </ul>
+                ただし、素材の「再配布」や「素材としての販売」は禁止です（次項参照）。
+              </div>
+              <div class="meta">
+                <span class="pill"><strong>カテゴリ</strong> 利用・ライセンス</span>
+                <a class="backtop" href="#top">ページ上部へ</a>
+              </div>
+            </article>
+
+            <article class="qa-item" id="q02" data-q="クレジット 表記 必要 作者名 リンク" data-a="基本は任意。必要な場合だけ明記。">
+              <h3 class="q"><span class="badge">Q2</span>クレジット表記は必要ですか？</h3>
+              <div class="a">
+                基本的に任意です。表記する場合は、次のどれかで十分です。
+                <ul>
+                  <li>サイト名（またはサークル名）</li>
+                  <li>素材名（任意）</li>
+                  <li>配布ページURL（任意）</li>
+                </ul>
+                ただし、商品ページや個別素材の説明で「クレジット必須」と明記されているものは、その条件に従ってください。
+              </div>
+              <div class="meta">
+                <span class="pill"><strong>カテゴリ</strong> 利用・ライセンス</span>
+                <a class="backtop" href="#top">ページ上部へ</a>
+              </div>
+            </article>
+
+            <article class="qa-item" id="q03" data-q="再配布 禁止 二次配布 転売 素材集 同梱 抽出" data-a="素材データのまま渡す行為は不可。成果物としての利用は可。">
+              <h3 class="q"><span class="badge">Q3</span>再配布・転載は禁止（禁止事項）は？</h3>
+              <div class="a">
+                以下はすべて禁止です（例示）。
+                <ul>
+                  <li>素材ファイルの再配布（無料・有料問わず）</li>
+                  <li>素材集・テンプレ素材・アセットパックとしての販売</li>
+                  <li>素材の大部分が抽出できる形での公開（加工の有無に関わらず）</li>
+                  <li>商標・ロゴ登録を主目的とした使用（素材自体が主体になる利用）</li>
+                </ul>
+                成果物（ゲーム、動画、Webページ等）の一部として使うのは問題ありません。
+              </div>
+              <div class="meta">
+                <span class="pill"><strong>カテゴリ</strong> 利用・ライセンス</span>
+                <a class="backtop" href="#top">ページ上部へ</a>
+              </div>
+            </article>
+
+            <article class="qa-item" id="q04" data-q="加工 編集 トリミング 色変更 合成 リサイズ" data-a="加工は可。禁止事項に該当しない範囲で自由。">
+              <h3 class="q"><span class="badge">Q4</span>編集・加工はどこまで可能ですか？</h3>
+              <div class="a">
+                トリミング、色調整、合成、拡大縮小、エフェクト追加などの加工は可能です。
+                <br />
+                ただし、加工後であっても「素材として再配布」や「抽出可能な形での公開」は禁止です。
+              </div>
+              <div class="meta">
+                <span class="pill"><strong>カテゴリ</strong> 利用・ライセンス</span>
+                <a class="backtop" href="#top">ページ上部へ</a>
+              </div>
+            </article>
+
+            <article class="qa-item" id="q05" data-q="支払い 決済 クレカ paypal コンビニ" data-a="一般的な決済手段を用意。">
+              <h3 class="q"><span class="badge">Q5</span>支払い方法は何がありますか？</h3>
+              <div class="a">
+                代表的な支払い方法に対応しています（ショップの仕様により一部異なる場合があります）。
+                <ul>
+                  <li>クレジットカード</li>
+                  <li>PayPal / 各種オンライン決済</li>
+                  <li>コンビニ決済（対応している場合）</li>
+                </ul>
+              </div>
+              <div class="meta">
+                <span class="pill"><strong>カテゴリ</strong> 購入・支払い</span>
+                <a class="backtop" href="#top">ページ上部へ</a>
+              </div>
+            </article>
+
+            <article class="qa-item" id="q06" data-q="領収書 インボイス 請求書 宛名" data-a="購入履歴から発行、難しければ問い合わせ。">
+              <h3 class="q"><span class="badge">Q6</span>領収書（インボイス対応）は発行できますか？</h3>
+              <div class="a">
+                購入履歴ページからダウンロードできる形式（PDF等）を用意しています。
+                <ul>
+                  <li>宛名の変更可（購入者情報に準拠）</li>
+                  <li>インボイス記載の可否は、ショップ側の仕様に依存します</li>
+                </ul>
+                発行方法が見当たらない場合は、注文番号を添えてお問い合わせください。
+              </div>
+              <div class="meta">
+                <span class="pill"><strong>カテゴリ</strong> 購入・支払い</span>
+                <a class="backtop" href="#top">ページ上部へ</a>
+              </div>
+            </article>
+
+            <article class="qa-item" id="q07" data-q="ダウンロード 期限 回数 制限 再DL" data-a="期限や回数制限はショップ仕様に依存。">
+              <h3 class="q"><span class="badge">Q7</span>ダウンロード期限・回数制限はありますか？</h3>
+              <div class="a">
+                原則として、購入後はいつでも再ダウンロード可能な設計を想定していますが、
+                ショッププラットフォームの仕様により「一定期間」「一定回数」などの制限がかかる場合があります。
+                <br />
+                期限がある場合は購入画面または購入メールに記載されます。
+              </div>
+              <div class="meta">
+                <span class="pill"><strong>カテゴリ</strong> ダウンロード・データ</span>
+                <a class="backtop" href="#top">ページ上部へ</a>
+              </div>
+            </article>
+
+            <article class="qa-item" id="q08" data-q="形式 png jpg psd 解像度 サイズ" data-a="一般的にはPNG中心。商品ページに記載。">
+              <h3 class="q"><span class="badge">Q8</span>画像サイズや形式は何ですか？</h3>
+              <div class="a">
+                素材は主に PNG（透過あり）を中心に提供しています。パックによっては JPG / PSD / clip などが含まれる場合があります。
+                <br />
+                正確な内容（ピクセル数、カラーモード、収録点数）は、各商品の説明欄に記載します。
+              </div>
+              <div class="meta">
+                <span class="pill"><strong>カテゴリ</strong> ダウンロード・データ</span>
+                <a class="backtop" href="#top">ページ上部へ</a>
+              </div>
+            </article>
+
+            <article class="qa-item" id="q09" data-q="ダウンロード できない 破損 解凍 zip パスワード" data-a="ブラウザ変更、再DL、解凍ソフト確認。">
+              <h3 class="q"><span class="badge">Q9</span>ダウンロードできません / 破損しています</h3>
+              <div class="a">
+                次を順にお試しください。
+                <ul>
+                  <li>別ブラウザでダウンロード（Chrome / Firefox等）</li>
+                  <li>通信が不安定な環境の場合、回線を変更して再ダウンロード</li>
+                  <li>zip解凍ソフトを変更（標準解凍で失敗する場合あり）</li>
+                  <li>セキュリティソフトが自動隔離していないか確認</li>
+                </ul>
+                解決しない場合は、注文番号と症状（OS/ブラウザ/エラー表示）を添えてお問い合わせください。
+              </div>
+              <div class="meta">
+                <span class="pill"><strong>カテゴリ</strong> トラブル・返金</span>
+                <a class="backtop" href="#top">ページ上部へ</a>
+              </div>
+            </article>
+
+            <article class="qa-item" id="q10" data-q="返金 キャンセル 返品" data-a="デジタル商品の性質上、原則不可。例外は重複決済等。">
+              <h3 class="q"><span class="badge">Q10</span>返金はできますか？</h3>
+              <div class="a">
+                デジタル商品のため、原則として購入後の返金・キャンセルはお受けしていません。
+                <br />
+                ただし、重複決済やシステム障害など明確な不備がある場合は個別に確認します。
+              </div>
+              <div class="meta">
+                <span class="pill"><strong>カテゴリ</strong> トラブル・返金</span>
+                <a class="backtop" href="#top">ページ上部へ</a>
+              </div>
+            </article>
+
+            <article class="qa-item" id="q11" data-q="AI 学習 生成 training dataset 機械学習" data-a="原則不可。素材やページへのAI学習目的利用は禁止。">
+              <h3 class="q"><span class="badge">Q11</span>AI学習・AI生成への利用は可能ですか？</h3>
+              <div class="a">
+                原則として禁止です（AI学習・学習データへの投入・AI生成の素材用途を含む）。
+                <br />
+                例外的に許可する場合があるなら、商品ページに明記します。
+              </div>
+              <div class="meta">
+                <span class="pill"><strong>カテゴリ</strong> AI・学習利用</span>
+                <a class="backtop" href="#top">ページ上部へ</a>
+              </div>
+            </article>
+
+            <article class="qa-item" id="q12" data-q="複数端末 共有 チーム メンバー" data-a="購入者本人の複数端末は可、第三者共有は不可が一般的。">
+              <h3 class="q"><span class="badge">Q12</span>購入した素材は複数端末で使えますか？</h3>
+              <div class="a">
+                購入者本人が所有する複数端末での利用は一般的に問題ありません。
+                <br />
+                一方で、第三者への素材ファイル共有（チーム内の無制限共有など）は「再配布」に該当するため禁止となるのが一般的です。
+                チーム制作の場合は、利用人数分のライセンス購入や、法人向けライセンスの有無をご確認ください。
+              </div>
+              <div class="meta">
+                <span class="pill"><strong>カテゴリ</strong> アカウント・その他</span>
+                <a class="backtop" href="#top">ページ上部へ</a>
+              </div>
+            </article>
+          </div>
+        </main>
+      </section>
+    </div>
+
+    <footer>
+      <div class="line"></div>
+      <div>© <span id="year"></span> ハト タイルセット. All rights reserved.</div>
+    </footer>
+  </div>
+
+  <script>
+    (function(){
+      const $ = (sel, root=document) => root.querySelector(sel);
+      const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+
+      const input = $("#faqSearch");
+      const qaWrap = $("#qa");
+      const items = $$(".qa-item", qaWrap);
+      const resultHint = $("#resultHint");
+      const toc = $("#toc");
+      const tocLinks = $$("a[href^='#']", toc);
+
+      // 年表示
+      $("#year").textContent = String(new Date().getFullYear());
+
+      // テキストをmarkでハイライト（既存markは除去）
+      function clearHighlights(el){
+        $$("mark", el).forEach(m => {
+          const t = document.createTextNode(m.textContent);
+          m.replaceWith(t);
+        });
+      }
+      function highlight(el, query){
+        if(!query) return;
+        const q = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        const re = new RegExp(q, "gi");
+
+        const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, {
+          acceptNode(node){
+            if(!node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+            if(node.parentNode && node.parentNode.nodeName === "MARK") return NodeFilter.FILTER_REJECT;
+            return NodeFilter.FILTER_ACCEPT;
+          }
+        });
+
+        const nodes = [];
+        while(walker.nextNode()) nodes.push(walker.currentNode);
+
+        nodes.forEach(node => {
+          const text = node.nodeValue;
+          if(!re.test(text)) return;
+          re.lastIndex = 0;
+
+          const frag = document.createDocumentFragment();
+          let last = 0;
+          let m;
+          while((m = re.exec(text)) !== null){
+            const start = m.index;
+            const end = start + m[0].length;
+            frag.appendChild(document.createTextNode(text.slice(last, start)));
+            const mark = document.createElement("mark");
+            mark.textContent = text.slice(start, end);
+            frag.appendChild(mark);
+            last = end;
+          }
+          frag.appendChild(document.createTextNode(text.slice(last)));
+          node.parentNode.replaceChild(frag, node);
+        });
+      }
+
+      function normalize(s){
+        return (s || "").toLowerCase().trim();
+      }
+
+      function filter(){
+        const q = normalize(input.value);
+
+        // いったんハイライトを消す
+        items.forEach(it => clearHighlights(it));
+
+        if(!q){
+          items.forEach(it => it.classList.remove("hidden"));
+          tocLinks.forEach(a => a.classList.remove("hidden"));
+          resultHint.textContent = "検索すると、該当しない質問は非表示になります。該当件数は検索欄の下に表示されます。";
+          return;
+        }
+
+        let hitCount = 0;
+
+        items.forEach(it => {
+          const qText = normalize(it.getAttribute("data-q"));
+          const aText = normalize(it.getAttribute("data-a"));
+          const bodyText = normalize(it.textContent);
+
+          const hit = qText.includes(q) || aText.includes(q) || bodyText.includes(q);
+
+          if(hit){
+            it.classList.remove("hidden");
+            hitCount++;
+            highlight(it, input.value.trim());
+          }else{
+            it.classList.add("hidden");
+          }
+        });
+
+        // 目次も連動して非表示
+        tocLinks.forEach(a => {
+          const id = a.getAttribute("href");
+          const target = id ? $(id) : null;
+          if(!target) return;
+          a.classList.toggle("hidden", target.classList.contains("hidden"));
+        });
+
+        resultHint.textContent = `検索結果: ${hitCount} 件`;
+      }
+
+      input.addEventListener("input", filter);
+
+      // URLハッシュがある場合に検索状態でも移動できるよう補助
+      window.addEventListener("hashchange", () => {
+        const id = location.hash;
+        if(!id) return;
+        const target = $(id);
+        if(target && target.classList.contains("hidden")){
+          input.value = "";
+          filter();
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
