@@ -335,11 +335,23 @@
       margin: 0 auto;    /* 中央寄せ */
     }
     
+        .img-wrap img {
+          display: block;
+          width: 100%;
+          height: auto;
+        }
+
+    .a {
+  max-width: 100%;
+  overflow-x: hidden; /* 横はみ出し防止 */
+}
+
     .img-wrap img {
       display: block;
-      width: 100%;
+      max-width: 100%;    /* 親ブロック基準に制限 */
       height: auto;
     }
+
     
   </style>
 </head>
@@ -407,7 +419,7 @@
           <div class="qa" id="qa">
             <article class="qa-item" id="q01" data-q="個人 商用 有料 有償 フリー ゲーム テーブル ボード ボドゲ TRPG、マーダーミステリー マダミス エモクロア クトゥルフ神話 TRPG セッション ユドナリウム ココフォリア 動画 バナー 有料 販売 作品 PC スマホ コンシューマ アプリ ソフト ウェア Web ブログ オンライン pictSQUARE ピクリエ SNS ポスト 投稿 X Instagram Bluesky YouTube ニコニコ 動画 サービス ライブ 配信 アーカイブ 動画 書籍 同人誌 紙 電子 プレゼン 学校 課題 研究 発表 資料 展示物 イベント 個展 即売会" data-a="商用利用は可能です。利用範囲と禁止事項をご確認ください。">
               <h3 class="q"><span class="badge">Q1</span>◯◯に使ってもいいですか？</h3>
-              <div class="a" class="img-wrap">
+              <div class="a img-wrap">
               <a href="images/Q1Base.png" target="_blank">
                 <img src="images/Q1Base.png" alt="基本ルール">
               </a>
