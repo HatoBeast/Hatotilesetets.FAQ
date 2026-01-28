@@ -495,11 +495,13 @@
       </div>
     </header>
     
+    <div class="page-links hide-on-search">
     <nav class="page-links">
-  <a href="https://hatotilesets.fanbox.cc/posts/5546537">🔙ヘルプ記事に戻る</a>
-  <a href="https://aobato-tileset.booth.pm/">🛒BOOTH ショップに戻る</a>
-  <a href="https://www.dlsite.com/home/circle/profile/=/maker_id/RG51773.html">🛒DLsite ショップに戻る</a>
-</nav>
+    <a href="https://hatotilesets.fanbox.cc/posts/5546537">🔙ヘルプ記事に戻る</a>
+    <a href="https://aobato-tileset.booth.pm/">🛒BOOTH ショップに戻る</a>
+    <a href="https://www.dlsite.com/home/circle/profile/=/maker_id/RG51773.html">🛒DLsite ショップに戻る</a>
+    </nav>
+    </div> 
 
     <div class="grid">
       <!-- 目次 -->
@@ -593,13 +595,13 @@
               </div>
             </article>
 
-            <article class="qa-item" id="a03" data-q="画像 加工 縮小 拡大 回転 色 変更 影 光 追加 トリミング ファイル 名 前 透過 加筆 合成 リサイズ 色調" data-a="素材加工は許可しています。">
+            <article class="qa-item" id="a03" data-q="画像 加工 編集 縮小 拡大 回転 色 色調 調整 反転 変更 影 光 追加 トリミング ファイル 名 前 透過 加筆 合成 リサイズ 色調" data-a="素材加工は許可しています。">
               <h3 class="q"><span class="badge">Q</span>加工してもいいですか？</h3>
               <div class="a">
               <b>はい。</b><hr>
                 縮小、拡大、回転、色変更、影や光の追加、トリミング、ファイル名変更、透過加工、一部を切り抜いて別のパーツとして加工するなどの処理は許可しております。<br>
                 <br>
-                素材を他作者様による素材と合成する行為は、"作者アオバト側は"問題ございませんが、組み合わせる他の素材の作者様のご意向は把握しておりません。素材作者に関する誤認や問題が発生しないように厳重にご注意ください。
+                素材を他作者様による素材との合成は、"作者アオバト側は"問題ございませんが、組み合わせる他の素材の作者様のご意向は把握しておりません。素材作者に関する誤認や問題が発生しないように厳重にご注意ください。
               </div>
               <div class="meta">
                 <a class="backtop" href="#top">ページ上部へ</a>
@@ -853,7 +855,7 @@ Web上にアップロードすることでAIに学習される可能性のある
               <b>実在する植物と、製作者アオバトがデザインした架空の植物がございます。</b>
               <hr>
               このご質問は何度か頂いているので、記事を作成致しました。<br>
-現状販売している作品の植物を少しだけご紹介しておりますので、ご興味があれば是非御覧ください。<br>
+現状販売している作品の植物を少しだけご紹介しておりますので御覧ください。<br>
 <a href="https://hatotilesets.fanbox.cc/posts/5546109">▶『ハト タイルセット』シリーズの植物たち</a>
                 </div>
               <div class="meta">
@@ -866,11 +868,11 @@ Web上にアップロードすることでAIに学習される可能性のある
       </section>
     </div>
     
-        <nav class="page-links">
+  <nav class="page-links">
   <a href="https://hatotilesets.fanbox.cc/posts/5546537">🔙ヘルプ記事に戻る</a>
   <a href="https://aobato-tileset.booth.pm/">🛒BOOTH ショップに戻る</a>
   <a href="https://www.dlsite.com/home/circle/profile/=/maker_id/RG51773.html">🛒DLsite ショップに戻る</a>
-</nav>
+  </nav>
 
     <footer>
       <div class="line"></div>
@@ -944,6 +946,10 @@ Web上にアップロードすることでAIに学習される可能性のある
 
       function filter(){
         const q = normalize(input.value);
+
+          hideOnSearch.forEach(el => {
+          el.classList.toggle("hidden", q !== "");
+          });
 
         // いったんハイライトを消す
         items.forEach(it => clearHighlights(it));
