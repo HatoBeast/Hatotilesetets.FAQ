@@ -471,6 +471,16 @@
   background: rgba(59,199,214,0.22);
 }
 
+/* 検索中は「回答だけ全幅」にする */
+body.is-searching .grid{
+  grid-template-columns: 1fr;
+}
+
+/* 目次（左カラム）を検索中に消す */
+body.is-searching #tocPanel{
+  display:none !important;
+}
+
   </style>
 </head>
 
@@ -495,7 +505,7 @@
       </div>
     </header>
     
-    <nav class="page-links" class="page-links hide-on-search">
+    <nav class="page-links hide-on-search">
     <a href="https://hatotilesets.fanbox.cc/posts/5546537">🔙ヘルプ記事に戻る</a>
     <a href="https://aobato-tileset.booth.pm/">🛒BOOTH ショップに戻る</a>
     <a href="https://www.dlsite.com/home/circle/profile/=/maker_id/RG51773.html">🛒DLsite ショップに戻る</a>
@@ -503,7 +513,7 @@
 
     <div class="grid">
       <!-- 目次 -->
-      <aside class="panel" aria-label="目次">
+      <aside class="panel hide-on-search" class="panel" aria-label="目次">
         <h2>目次</h2>
         <nav class="toc" id="toc">
           <div class="group">利用規約</div>
@@ -948,6 +958,14 @@ Web上にアップロードすることでAIに学習される可能性のある
 
   function filter(){
     const q = normalize(input ? input.value : "");
+    
+      // 追加：検索中フラグ
+      document.body.classList.toggle("is-searching", q !== "");
+    
+      // 既存：hide-on-search を隠す処理
+      hideOnSearch.forEach(el => {
+        el.classList.toggle("hidden", q !== "");
+      });
 
     // ★ ここが「入力されたら無条件で隠す」処理
     hideOnSearch.forEach(el => {
