@@ -979,74 +979,71 @@ Web上にアップロードすることでAIに学習される可能性のある
     return (s || "").toLowerCase().trim();
   }
 
-  function filter(){
-    const q = normalize(input ? input.value : "");
-    
-      // 追加：検索中フラグ
-      document.body.classList.toggle("is-searching", q !== "");
-    
-      // 既存：hide-on-search を隠す処理
-      hideOnSearch.forEach(el => {
-        el.classList.toggle("hidden", q !== "");
-      });
+function filter(){
+  const q = normalize(input ? input.value : "");
 
-    // ★ ここが「入力されたら無条件で隠す」処理
-    hideOnSearch.forEach(el => {
-      el.classList.toggle("hidden", q !== "");
-    });
+  // 検索中フラグ
+  document.body.classList.toggle("is-searching", q !== "");
 
-    // いったんハイライトを消す
-    items.forEach(it => clearHighlights(it));
+  // 検索中に隠す要素
+  hideOnSearch.forEach(el => {
+    el.classList.toggle("hidden", q !== "");
+  });
 
-    if(!q){
-      items.forEach(it => it.classList.remove("hidden"));
-      tocLinks.forEach(a => a.classList.remove("hidden"));
-      if (resultHint) {
-        resultHint.textContent = "検索すると、該当しない質問は非表示になります。該当件数は検索欄の下に表示されます。";
-      }
-      return;
-    }
+  // ハイライト解除
+  items.forEach(it => clearHighlights(it));
 
-    let hitCount = 0;
-
-    items.forEach(it => {
-      const qText = normalize(it.getAttribute("data-q"));
-      const aText = normalize(it.getAttribute("data-a"));
-      const bodyText = normalize(it.textContent);
-
-      const hit = qText.includes(q) || aText.includes(q) || bodyText.includes(q);
-
-      if(hit){
-        it.classList.remove("hidden");
-        hitCount++;
-        highlight(it, input.value.trim());
-      }else{
-        it.classList.add("hidden");
-      }
-    });
-
-    // 目次も連動して非表示
-    tocLinks.forEach(a => {
-      const id = a.getAttribute("href");
-      const target = id ? $(id) : null;
-      if(!target) return;
-      a.classList.toggle("hidden", target.classList.contains("hidden"));
-    });
-
-    if (resultHint) resultHint.textContent = `検索結果: ${hitCount} 件`;
+  // ▼ ここが重要
+  if (resultHint) {
+    resultHint.classList.remove("hidden");
   }
 
-  if (input) input.addEventListener("input", filter);
+  if(!q){
+    items.forEach(it => it.classList.remove("hidden"));
+    tocLinks.forEach(a => a.classList.remove("hidden"));
 
-  // URLハッシュがある場合の補助
-  window.addEventListener("hashchange", () => {
-    const id = location.hash;
-    if(!id) return;
-    const target = $(id);
-    if(target && target.classList.contains("hidden")){
-      if (input) input.value = "";
-      filter();
+    if (resultHint) {
+      resultHint.textContent =
+        "検索すると、該当しない質問は非表示になります。";
     }
+    return;
+  }
+
+  let hitCount = 0;
+
+  items.forEach(it => {
+    const qText = normalize(it.getAttribute("data-q"));
+    const aText = normalize(it.getAttribute("data-a"));
+    const bodyText = normalize(it.textContent);
+
+    const hit =
+      qText.includes(q) ||
+      aText.includes(q) ||
+      bodyText.includes(q);
+
+    if(hit){
+      it.classList.remove("hidden");
+      hitCount++;
+      highlight(it, input.value.trim());
+    }else{
+      it.classList.add("hidden");
+    }
+  });
+
+  // 目次リンク連動
+  tocLinks.forEach(a => {
+    const id = a.getAttribute("href");
+    const target = id ? $(id) : null;
+    if(!target) return;
+    a.classList.toggle("hidden", target.classList.contains("hidden"));
+  });
+
+  // ▼ 検索中は必ず件数を表示
+  if (resultHint) {
+    resultHint.textContent = `検索結果: ${hitCount} 件`;
+  }
+}
+
   });
 })();
 </script>
