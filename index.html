@@ -947,10 +947,6 @@ Web上にアップロードすることでAIに学習される可能性のある
       function filter(){
         const q = normalize(input.value);
 
-          hideOnSearch.forEach(el => {
-          el.classList.toggle("hidden", q !== "");
-          });
-
         // いったんハイライトを消す
         items.forEach(it => clearHighlights(it));
 
