@@ -523,7 +523,7 @@ body.is-searching #tocPanel{
 
     <div class="grid">
       <!-- 目次 -->
-      <aside class="panel hide-on-search" class="panel" aria-label="目次">
+     <aside class="panel hide-on-search" id="tocPanel" aria-label="目次">
         <h2>目次</h2>
         <nav class="toc" id="toc">
           <div class="group">利用規約</div>
@@ -561,6 +561,8 @@ body.is-searching #tocPanel{
       <section class="panel" aria-label="FAQ本文">
         <h2>回答</h2>
         <main>
+        
+        <p class="hint" id="resultHint">検索すると、該当しない質問は非表示になります。</p>
 
           <div class="qa" id="qa">
             <article class="qa-item" id="a01" data-q="個人 商用 有料 有償 フリー ゲーム WOLF RPGエディター ウディタ テーブル ボード ボドゲ TRPG、マーダーミステリー マダミス エモクロア クトゥルフ神話 TRPG セッション ユドナリウム ココフォリア 動画 バナー 有料 販売 作品 PC スマホ コンシューマ アプリ ソフト ウェア Web ブログ オンライン pictSQUARE ピクリエ メタバース バーチャル オフィス SNS ポスト 投稿 X Instagram インスタグラム インスタ Twitter Bluesky YouTube ニコニコ 動画 サービス ライブ 配信 アーカイブ 動画 書籍 同人誌 紙 電子 プレゼン 学校 課題 研究 発表 資料 展示物 イベント 個展 即売会" data-a="商用利用は可能です。利用範囲と禁止事項をご確認ください。">
@@ -994,7 +996,7 @@ function filter(){
   // ハイライトを全部消す
   items.forEach(it => clearHighlights(it));
 
-  // resultHint は常に表示（検索結果0件でも表示したいので）
+  // resultHint は常に表示（検索結果0件でも表示したい）
   if (resultHint) resultHint.classList.remove("hidden");
 
   // 未入力なら全部表示に戻す
@@ -1020,7 +1022,7 @@ function filter(){
     if (hit){
       it.classList.remove("hidden");
       hitCount++;
-      highlight(it, qRaw.trim()); // 入力そのままでハイライト
+      highlight(it, qRaw.trim());
     } else {
       it.classList.add("hidden");
     }
@@ -1040,11 +1042,23 @@ function filter(){
   // 検索中は必ず件数表示
   if (resultHint) resultHint.textContent = `検索結果: ${hitCount} 件`;
 }
-}
 
-  });
+// 入力イベント
+if (input) input.addEventListener("input", filter);
+
+// URLハッシュがある場合の補助
+window.addEventListener("hashchange", () => {
+  const id = location.hash;
+  if(!id) return;
+  const target = $(id);
+  if(target && target.classList.contains("hidden")){
+    if (input) input.value = "";
+    filter();
+  }
+});
 })();
 </script>
+
 
 </body>
 </html>
