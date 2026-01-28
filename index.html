@@ -495,13 +495,11 @@
       </div>
     </header>
     
-    <div class="page-links hide-on-search">
-    <nav class="page-links">
+    <nav class="page-links" class="page-links hide-on-search">
     <a href="https://hatotilesets.fanbox.cc/posts/5546537">🔙ヘルプ記事に戻る</a>
     <a href="https://aobato-tileset.booth.pm/">🛒BOOTH ショップに戻る</a>
     <a href="https://www.dlsite.com/home/circle/profile/=/maker_id/RG51773.html">🛒DLsite ショップに戻る</a>
     </nav>
-    </div> 
 
     <div class="grid">
       <!-- 目次 -->
@@ -880,125 +878,137 @@ Web上にアップロードすることでAIに学習される可能性のある
     </footer>
   </div>
 
-  <script>
-    (function(){
-      const $ = (sel, root=document) => root.querySelector(sel);
-      const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+<script>
+(function(){
+  const $ = (sel, root=document) => root.querySelector(sel);
+  const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
 
-      const input = $("#faqSearch");
-      const qaWrap = $("#qa");
-      const items = $$(".qa-item", qaWrap);
-      const resultHint = $("#resultHint");
-      const toc = $("#toc");
-      const tocLinks = $$("a[href^='#']", toc);
+  const input = $("#faqSearch");
+  const qaWrap = $("#qa");
+  const items = $$(".qa-item", qaWrap);
+  const resultHint = $("#resultHint");
+  const toc = $("#toc");
+  const tocLinks = $$("a[href^='#']", toc);
 
-      // 年表示
-      $("#year").textContent = String(new Date().getFullYear());
+  // ★ 追加：検索中に無条件で隠したい要素
+  const hideOnSearch = $$(".hide-on-search");
 
-      // テキストをmarkでハイライト（既存markは除去）
-      function clearHighlights(el){
-        $$("mark", el).forEach(m => {
-          const t = document.createTextNode(m.textContent);
-          m.replaceWith(t);
-        });
+  // 年表示
+  const yearEl = $("#year");
+  if (yearEl) yearEl.textContent = String(new Date().getFullYear());
+
+  function clearHighlights(el){
+    $$("mark", el).forEach(m => {
+      const t = document.createTextNode(m.textContent);
+      m.replaceWith(t);
+    });
+  }
+
+  function highlight(el, query){
+    if(!query) return;
+    const q = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const re = new RegExp(q, "gi");
+
+    const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, {
+      acceptNode(node){
+        if(!node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+        if(node.parentNode && node.parentNode.nodeName === "MARK") return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
       }
-      function highlight(el, query){
-        if(!query) return;
-        const q = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-        const re = new RegExp(q, "gi");
+    });
 
-        const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, {
-          acceptNode(node){
-            if(!node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
-            if(node.parentNode && node.parentNode.nodeName === "MARK") return NodeFilter.FILTER_REJECT;
-            return NodeFilter.FILTER_ACCEPT;
-          }
-        });
+    const nodes = [];
+    while(walker.nextNode()) nodes.push(walker.currentNode);
 
-        const nodes = [];
-        while(walker.nextNode()) nodes.push(walker.currentNode);
+    nodes.forEach(node => {
+      const text = node.nodeValue;
+      if(!re.test(text)) return;
+      re.lastIndex = 0;
 
-        nodes.forEach(node => {
-          const text = node.nodeValue;
-          if(!re.test(text)) return;
-          re.lastIndex = 0;
-
-          const frag = document.createDocumentFragment();
-          let last = 0;
-          let m;
-          while((m = re.exec(text)) !== null){
-            const start = m.index;
-            const end = start + m[0].length;
-            frag.appendChild(document.createTextNode(text.slice(last, start)));
-            const mark = document.createElement("mark");
-            mark.textContent = text.slice(start, end);
-            frag.appendChild(mark);
-            last = end;
-          }
-          frag.appendChild(document.createTextNode(text.slice(last)));
-          node.parentNode.replaceChild(frag, node);
-        });
+      const frag = document.createDocumentFragment();
+      let last = 0;
+      let m;
+      while((m = re.exec(text)) !== null){
+        const start = m.index;
+        const end = start + m[0].length;
+        frag.appendChild(document.createTextNode(text.slice(last, start)));
+        const mark = document.createElement("mark");
+        mark.textContent = text.slice(start, end);
+        frag.appendChild(mark);
+        last = end;
       }
+      frag.appendChild(document.createTextNode(text.slice(last)));
+      node.parentNode.replaceChild(frag, node);
+    });
+  }
 
-      function normalize(s){
-        return (s || "").toLowerCase().trim();
+  function normalize(s){
+    return (s || "").toLowerCase().trim();
+  }
+
+  function filter(){
+    const q = normalize(input ? input.value : "");
+
+    // ★ ここが「入力されたら無条件で隠す」処理
+    hideOnSearch.forEach(el => {
+      el.classList.toggle("hidden", q !== "");
+    });
+
+    // いったんハイライトを消す
+    items.forEach(it => clearHighlights(it));
+
+    if(!q){
+      items.forEach(it => it.classList.remove("hidden"));
+      tocLinks.forEach(a => a.classList.remove("hidden"));
+      if (resultHint) {
+        resultHint.textContent = "検索すると、該当しない質問は非表示になります。該当件数は検索欄の下に表示されます。";
       }
+      return;
+    }
 
-      function filter(){
-        const q = normalize(input.value);
+    let hitCount = 0;
 
-        // いったんハイライトを消す
-        items.forEach(it => clearHighlights(it));
+    items.forEach(it => {
+      const qText = normalize(it.getAttribute("data-q"));
+      const aText = normalize(it.getAttribute("data-a"));
+      const bodyText = normalize(it.textContent);
 
-        if(!q){
-          items.forEach(it => it.classList.remove("hidden"));
-          tocLinks.forEach(a => a.classList.remove("hidden"));
-          resultHint.textContent = "検索すると、該当しない質問は非表示になります。該当件数は検索欄の下に表示されます。";
-          return;
-        }
+      const hit = qText.includes(q) || aText.includes(q) || bodyText.includes(q);
 
-        let hitCount = 0;
-
-        items.forEach(it => {
-          const qText = normalize(it.getAttribute("data-q"));
-          const aText = normalize(it.getAttribute("data-a"));
-          const bodyText = normalize(it.textContent);
-
-          const hit = qText.includes(q) || aText.includes(q) || bodyText.includes(q);
-
-          if(hit){
-            it.classList.remove("hidden");
-            hitCount++;
-            highlight(it, input.value.trim());
-          }else{
-            it.classList.add("hidden");
-          }
-        });
-
-        // 目次も連動して非表示
-        tocLinks.forEach(a => {
-          const id = a.getAttribute("href");
-          const target = id ? $(id) : null;
-          if(!target) return;
-          a.classList.toggle("hidden", target.classList.contains("hidden"));
-        });
-
-        resultHint.textContent = `検索結果: ${hitCount} 件`;
+      if(hit){
+        it.classList.remove("hidden");
+        hitCount++;
+        highlight(it, input.value.trim());
+      }else{
+        it.classList.add("hidden");
       }
+    });
 
-      input.addEventListener("input", filter);
+    // 目次も連動して非表示
+    tocLinks.forEach(a => {
+      const id = a.getAttribute("href");
+      const target = id ? $(id) : null;
+      if(!target) return;
+      a.classList.toggle("hidden", target.classList.contains("hidden"));
+    });
 
-      // URLハッシュがある場合に検索状態でも移動できるよう補助
-      window.addEventListener("hashchange", () => {
-        const id = location.hash;
-        if(!id) return;
-        const target = $(id);
-        if(target && target.classList.contains("hidden")){
-          input.value = "";
-          filter();
-        }
-      });
-    })();
-  </script>
+    if (resultHint) resultHint.textContent = `検索結果: ${hitCount} 件`;
+  }
+
+  if (input) input.addEventListener("input", filter);
+
+  // URLハッシュがある場合の補助
+  window.addEventListener("hashchange", () => {
+    const id = location.hash;
+    if(!id) return;
+    const target = $(id);
+    if(target && target.classList.contains("hidden")){
+      if (input) input.value = "";
+      filter();
+    }
+  });
+})();
+</script>
+
 </body>
 </html>
