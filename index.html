@@ -901,6 +901,20 @@ Web上にアップロードすることでAIに学習される可能性のある
   const toc = $("#toc");
   const tocLinks = $$("a[href^='#']", toc);
 
+  // プレースホルダーを画面幅で切り替え
+  function updatePlaceholder(){
+    if(!input) return;
+    if(window.matchMedia("(max-width: 600px)").matches){
+      input.placeholder = "キーワードで検索できます。";
+    }else{
+      input.placeholder = "キーワードで検索できます。（例：商用利用 / 画像加工 / クレジット表記 / AI）";
+    }
+  }
+  
+  updatePlaceholder();
+  window.addEventListener("resize", updatePlaceholder);
+
+
   // ★ 追加：検索中に無条件で隠したい要素
   const hideOnSearch = $$(".hide-on-search");
 
