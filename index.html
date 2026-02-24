@@ -575,6 +575,160 @@ body.is-searching #tocPanel{
     display: none;
   }
 }
+
+/* ボットボタン */
+#botFab{
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 12px 16px;
+  border-radius: 999px;
+
+  border: 1px solid rgba(255,255,255,0.6);
+  background: linear-gradient(135deg, var(--sea), var(--sand));
+
+  color: var(--deep);
+  font-weight: 800;
+  font-size: 14px;
+
+  box-shadow: 0 12px 30px rgba(16,52,58,0.25);
+  cursor: pointer;
+  z-index: 9999;
+
+  backdrop-filter: blur(6px);
+
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+#botFab:hover{
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 18px 40px rgba(16,52,58,0.3);
+}
+
+/* アイコン部分 */
+.bot-icon{
+  font-size: 18px;
+  line-height: 1;
+}
+
+/* テキスト */
+.bot-text{
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+}
+
+/* スマホで圧迫しないよう少し縮める */
+@media (max-width: 600px){
+  #botFab{
+    padding: 10px 14px;
+    font-size: 13px;
+  }
+
+  .bot-text{
+    display: none; /* スマホはアイコンのみ */
+  }
+}
+
+/* モーダル */
+.bot-modal{
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bot-modal-bg{
+  position: absolute;
+  inset: 0;
+  background: rgba(16,52,58,0.55);
+  backdrop-filter: blur(6px);
+}
+
+/* 中身 */
+.bot-modal-content{
+  position: relative;
+  width: min(680px, 92%);
+  max-height: 90vh;
+  overflow-y: auto;
+
+  background: rgba(255,255,255,0.92);
+  border-radius: 22px;
+  padding: 0px 22px 20px;
+
+  box-shadow: 0 30px 80px rgba(16,52,58,0.35);
+  border: 1px solid rgba(255,255,255,0.6);
+}
+
+/* 閉じる */
+.bot-close{
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  border: none;
+  background: transparent;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+/* 本文 */
+.bot-modal-body{
+  margin-top: 12px;
+  font-size: 14.5px;
+  line-height: 1.8;
+}
+
+.bot-modal-body ul{
+  margin: 10px 0 0;
+  padding-left: 18px;
+}
+
+/* フッター */
+.bot-modal-footer{
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* 同意 */
+.bot-consent{
+  font-size: 13.5px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+/* リンクボタン */
+.bot-link{
+  display: inline-block;
+  text-align: center;
+  padding: 12px;
+  border-radius: 999px;
+
+  background: linear-gradient(135deg, var(--sea), var(--sand));
+  color: var(--deep);
+  font-weight: 700;
+
+  text-decoration: none;
+  transition: opacity 0.2s ease, transform 0.1s ease;
+}
+
+.bot-link.disabled{
+  pointer-events: none;
+  opacity: 0.4;
+}
+
+/* 非表示 */
+.hidden{
+  display:none !important;
+}
     
   </style>
 </head>
@@ -987,8 +1141,6 @@ body.is-searching #tocPanel{
     </footer>
   </div>
 
-<script defer src="https://app.fastbots.ai/embed.js" data-bot-id="cmck14czg00h2qak7a1wy8407"></script>
-  
 <script>
 (function(){
   const $ = (sel, root=document) => root.querySelector(sel);
@@ -1149,6 +1301,85 @@ window.addEventListener("hashchange", () => {
 })();
 </script>
 
+<!-- ボットアイコン -->
+<button id="botFab" aria-label="ボットに聞く">
+  <span class="bot-icon">💬</span>
+  <span class="bot-text">ボットに聞く</span>
+</button>
+
+<!-- モーダル -->
+<div id="botModal" class="bot-modal hidden">
+  <div class="bot-modal-bg"></div>
+
+  <div class="bot-modal-content">
+    <button class="bot-close" id="botClose">×</button>
+
+    <h2>ハトボットへ進みますか？</h2>
+
+    <div class="bot-modal-body">
+      <p>ボットは補助的な情報提供を目的としています。送信されたメッセージは素材制作者アオバトが全て確認し、より精度の高い回答ができるように日々調節しております。ご協力よろしくお願いします。</p>
+      <hr>
+      <h2>禁止事項</h2>
+      <ul>
+        <li>他者素材のお問い合わせ</li>
+        <li>ボットの発言を証拠/根拠とする行為</li>
+        <li>非常識/不適切な利用</li>
+      </ul>
+      <p>※ボットにより問題が発生した際の責任は負いかねます。必ずご認識の上でご利用下さい。</p>
+    </div>
+
+    <div class="bot-modal-footer">
+      <label class="bot-consent">
+        <input type="checkbox" id="botAgree">
+        上記内容に同意する
+      </label>
+
+      <a id="botLink"
+         class="bot-link disabled"
+         href="#"
+         target="_blank"
+         rel="noopener">
+         ボットへ進む
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+(() => {
+  const fab = document.getElementById('botFab');
+  const modal = document.getElementById('botModal');
+  const closeBtn = document.getElementById('botClose');
+  const agree = document.getElementById('botAgree');
+  const link = document.getElementById('botLink');
+
+  // ボタン押下 → モーダル表示
+  fab.addEventListener('click', () => {
+    modal.classList.remove('hidden');
+  });
+
+  // 閉じる
+  closeBtn.addEventListener('click', () => {
+    modal.classList.add('hidden');
+  });
+
+  // 背景クリックで閉じる
+  modal.querySelector('.bot-modal-bg').addEventListener('click', () => {
+    modal.classList.add('hidden');
+  });
+
+  // 同意チェックでリンク有効化
+  agree.addEventListener('change', () => {
+    if (agree.checked) {
+      link.classList.remove('disabled');
+      link.href = "http://app.fastbots.ai/embed/cmck14czg00h2qak7a1wy8407";
+    } else {
+      link.classList.add('disabled');
+      link.href = "#";
+    }
+  });
+})();
+</script>
 
 </body>
 </html>
