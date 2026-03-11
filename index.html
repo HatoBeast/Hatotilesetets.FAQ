@@ -1185,13 +1185,14 @@ body.is-searching #tocPanel{
   if (yearEl) yearEl.textContent = String(new Date().getFullYear());
 
   function clearHighlights(el){
-    $$("mark", el).forEach(m => {
-      const t = document.createTextNode(m.textContent);
-      m.replaceWith(t);
-    });
-  }
+    el.querySelectorAll("mark").forEach(m=>{
+        const parent = m.parentNode;
+        parent.replaceChild(document.createTextNode(m.textContent),m);
+        parent.normalize();
+          });
+    }
 
-function highlight(el, query){
+  function highlight(el, query){
   if(!query) return;
 
   const q = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
