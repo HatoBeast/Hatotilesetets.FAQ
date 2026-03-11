@@ -1193,19 +1193,25 @@ body.is-searching #tocPanel{
     });
   }
 
-  function highlight(el, query){
-    if(!query) return;
-    const q = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    const re = new RegExp(q, "gi");
+function highlight(el, query){
+  if(!query) return;
 
-    const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, {
-      acceptNode(node){
-        if(!node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
-        if(node.parentNode && node.parentNode.nodeName === "MARK") return NodeFilter.FILTER_REJECT;
-        return NodeFilter.FILTER_ACCEPT;
-      }
+  const q = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const re = new RegExp(q, "gi");
+
+  const parts = el.innerHTML.split(/(<[^>]+>)/g);
+
+  for(let i=0;i<parts.length;i++){
+    if(parts[i].startsWith("<")) continue;
+
+    parts[i] = parts[i].replace(re, function(m){
+      return "<mark>" + m + "</mark>";
     });
+  }
 
+  el.innerHTML = parts.join("");
+}
+  
     const nodes = [];
     while(walker.nextNode()) nodes.push(walker.currentNode);
 
@@ -1275,7 +1281,7 @@ function filter(){
     if (hit){
       it.classList.remove("hidden");
       hitCount++;
-      highlight(it, qRaw.trim());
+      highlight(it, q);
     } else {
       it.classList.add("hidden");
     }
