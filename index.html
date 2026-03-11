@@ -435,13 +435,6 @@
       max-width: var(--max);
     }
 
-    /* 検索ハイライト */
-    mark{
-      background: rgba(249,236,196,0.85);
-      padding:0 2px;
-      border-radius:6px;
-    }
-
     /* 非表示 */
     .hidden{ display:none !important; }
 
@@ -1184,33 +1177,6 @@ body.is-searching #tocPanel{
   const yearEl = $("#year");
   if (yearEl) yearEl.textContent = String(new Date().getFullYear());
 
-  function clearHighlights(el){
-    el.querySelectorAll("mark").forEach(m=>{
-        const parent = m.parentNode;
-        parent.replaceChild(document.createTextNode(m.textContent),m);
-        parent.normalize();
-          });
-    }
-
-  function highlight(el, query){
-  if(!query) return;
-
-  const q = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  const re = new RegExp(q, "gi");
-
-  const parts = el.innerHTML.split(/(<[^>]+>)/g);
-
-  for(let i=0;i<parts.length;i++){
-    if(parts[i].startsWith("<")) continue;
-
-    parts[i] = parts[i].replace(re, function(m){
-      return "<mark>" + m + "</mark>";
-    });
-  }
-
-  el.innerHTML = parts.join("");
-}
-
   function normalize(s){
     return (s || "").toLowerCase().trim();
   }
@@ -1226,9 +1192,6 @@ function filter(){
   hideOnSearch.forEach(el => {
     el.classList.toggle("hidden", q !== "");
   });
-
-  // ハイライトを全部消す
-  items.forEach(it => clearHighlights(it));
 
   // resultHint は常に表示（検索結果0件でも表示したい）
   if (resultHint) resultHint.classList.remove("hidden");
@@ -1256,7 +1219,6 @@ function filter(){
     if (hit){
       it.classList.remove("hidden");
       hitCount++;
-      highlight(it, qRaw.trim());
     } else {
       it.classList.add("hidden");
     }
