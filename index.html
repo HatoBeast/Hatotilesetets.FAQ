@@ -269,6 +269,8 @@
       padding:18px 18px 16px;
       border-top:1px solid var(--line);
       scroll-margin-top: 14px;
+      word-break: break-word;
+      overflow-wrap: anywhere;
     }
     .qa-item:first-child{ border-top:0; }
     .qa-item:nth-child(odd){ background: var(--qA); }
@@ -1211,30 +1213,6 @@ function highlight(el, query){
 
   el.innerHTML = parts.join("");
 }
-  
-    const nodes = [];
-    while(walker.nextNode()) nodes.push(walker.currentNode);
-
-    nodes.forEach(node => {
-      const text = node.nodeValue;
-      if(!text.includes(query)) return;
-
-      const frag = document.createDocumentFragment();
-      let last = 0;
-      let m;
-      while((m = re.exec(text)) !== null){
-        const start = m.index;
-        const end = start + m[0].length;
-        frag.appendChild(document.createTextNode(text.slice(last, start)));
-        const mark = document.createElement("mark");
-        mark.textContent = text.slice(start, end);
-        frag.appendChild(mark);
-        last = end;
-      }
-      frag.appendChild(document.createTextNode(text.slice(last)));
-      node.parentNode.replaceChild(frag, node);
-    });
-  }
 
   function normalize(s){
     return (s || "").toLowerCase().trim();
@@ -1281,7 +1259,7 @@ function filter(){
     if (hit){
       it.classList.remove("hidden");
       hitCount++;
-      highlight(it, q);
+      highlight(it, qRaw.trim());
     } else {
       it.classList.add("hidden");
     }
