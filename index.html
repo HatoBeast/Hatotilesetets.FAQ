@@ -441,6 +441,7 @@
       writing-mode: inherit;
       text-orientation: inherit;
       display:inline;
+      white-space:nowrap;
     }
 
     /* 非表示 */
@@ -725,11 +726,6 @@ body.is-searching #tocPanel{
 .bot-link.disabled{
   pointer-events: none;
   opacity: 0.4;
-}
-
-/* 非表示 */
-.hidden{
-  display:none !important;
 }
     
   </style>
@@ -1215,8 +1211,7 @@ body.is-searching #tocPanel{
 
     nodes.forEach(node => {
       const text = node.nodeValue;
-      if(!re.test(text)) return;
-      re.lastIndex = 0;
+      if(!text.includes(query)) return;
 
       const frag = document.createDocumentFragment();
       let last = 0;
