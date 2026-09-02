@@ -1327,7 +1327,7 @@ window.addEventListener("wheel", function(event) {
 function smoothWheelScroll() {
     if (wheelScrolling) {
         scrollState.current +=
-            (scrollState.target - scrollState.current) * 0.22;
+            (scrollState.target - scrollState.current) * 0.30;
 
         if (Math.abs(scrollState.target - scrollState.current) < 0.5) {
             scrollState.current = scrollState.target;
