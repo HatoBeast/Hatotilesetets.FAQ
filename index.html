@@ -969,7 +969,7 @@ body.is-searching #tocPanel{
                 <hr>
                 利用規約テキストファイルまたは、組み込み方法テキストファイルに、素材の使用方法が記載されております。また、サンプルプロジェクトでは実際に素材が組み込まれた状態が確認できます。同梱テキストファイルの内容は必ず全てお読み下さい。<br>
                 <br>
-                尚、前提となるエディタの操作方法や仕様は、公式ヘルプページをご参照下さい。<br>
+                尚、前提となるエディタの操作方法や仕様は、RPGツクール公式様によるヘルプページをご参照下さい。<br>
                 <br>
                 <B>マップの基礎知識</B>
                 <ul>
@@ -995,7 +995,7 @@ body.is-searching #tocPanel{
               </div>
             </article>
 
-            <article class="qa-item" id="b01" data-q="RTP ランタイム パッケージ ランタイムパッケージ デフォルト デフォ 素材 デフォ素材 RPG ツクール XP VX Ace 2000 MV MZ テクスチャ フォント WOLF エディター ウディタ 初期 ツクールRTP" data-a="原則不可。素材やページへのAI学習目的利用は禁止。">
+            <article class="qa-item" id="b02" data-q="RTP ランタイム パッケージ ランタイムパッケージ デフォルト デフォ 素材 デフォ素材 RPG ツクール XP VX Ace 2000 MV MZ テクスチャ フォント WOLF エディター ウディタ 初期 ツクールRTP" data-a="原則不可。素材やページへのAI学習目的利用は禁止。">
               <h3 class="q"><span class="badge">Q</span>ツクールシリーズのRTPは含まれていますか？</h3>
               <div class="a">
                 <b>いいえ。</b>
@@ -1011,7 +1011,7 @@ body.is-searching #tocPanel{
               </div>
             </article>
 
-            <article class="qa-item" id="b02" data-q="training dataset 機械学習 機械 トレーニング データセット Instagram オプトアウト AI 人工知能 学習 ローラ ロラ Lora 生成物" data-a="AI不使用。">
+            <article class="qa-item" id="b03" data-q="training dataset 機械学習 機械 トレーニング データセット Instagram オプトアウト AI 人工知能 学習 ローラ ロラ Lora 生成物" data-a="AI不使用。">
               <h3 class="q"><span class="badge">Q</span>素材にAI・人工知能による生成物は含まれていますか？</h3>
               <div class="a">
               <b>いいえ。</b>
@@ -1310,9 +1310,13 @@ const scrollState = {
     target: window.scrollY
 };
 
-// マウスホイールだけを滑らかにする
+let wheelScrolling = false;
+
+// マウスホイールだけを取得
 window.addEventListener("wheel", function(event) {
     event.preventDefault();
+
+    wheelScrolling = true;
 
     scrollState.target += event.deltaY;
 
@@ -1325,30 +1329,39 @@ window.addEventListener("wheel", function(event) {
     );
 }, { passive: false });
 
-// ブラウザ標準のスクロールバーなどで
-// スクロール位置が変更された場合は、その位置に同期する
-window.addEventListener("scroll", function() {
-    if (Math.abs(window.scrollY - scrollState.current) > 1) {
-        scrollState.current = window.scrollY;
-        scrollState.target = window.scrollY;
-    }
-});
-
-// 滑らかなホイールスクロール
+// ホイールスクロールを滑らかにする
 function smoothWheelScroll() {
-    scrollState.current +=
-        (scrollState.target - scrollState.current) * 0.30;
+    if (wheelScrolling) {
+        scrollState.current +=
+            (scrollState.target - scrollState.current) * 0.30;
 
-    if (Math.abs(scrollState.target - scrollState.current) < 0.5) {
-        scrollState.current = scrollState.target;
+        if (Math.abs(scrollState.target - scrollState.current) < 0.5) {
+            scrollState.current = scrollState.target;
+            wheelScrolling = false;
+        }
+
+        window.scrollTo(0, scrollState.current);
     }
-
-    window.scrollTo(0, scrollState.current);
 
     requestAnimationFrame(smoothWheelScroll);
 }
 
 smoothWheelScroll();
+
+// スクロールバーなどで直接スクロールされた場合は
+// JavaScript側の位置だけ同期する
+let lastScriptScroll = window.scrollY;
+
+window.addEventListener("scroll", function() {
+    if (Math.abs(window.scrollY - lastScriptScroll) > 1) {
+        if (!wheelScrolling) {
+            scrollState.current = window.scrollY;
+            scrollState.target = window.scrollY;
+        }
+    }
+
+    lastScriptScroll = window.scrollY;
+});
 </script>
 
 </body>
