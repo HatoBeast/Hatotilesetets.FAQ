@@ -1262,5 +1262,42 @@ window.addEventListener("hashchange", () => {
 })();
 </script>
 
+<script>
+const scrollState = {
+    current: window.scrollY,
+    target: window.scrollY
+};
+  
+//スクロールテスト 
+window.addEventListener("wheel", function(event) {
+    event.preventDefault();
+
+    scrollState.target += event.deltaY;
+
+    const maxScroll =
+        document.documentElement.scrollHeight - window.innerHeight;
+
+    scrollState.target = Math.max(
+        0,
+        Math.min(scrollState.target, maxScroll)
+    );
+}, { passive: false });
+
+function smoothWheelScroll() {
+    scrollState.current +=
+        (scrollState.target - scrollState.current) * 0.22;
+
+    if (Math.abs(scrollState.target - scrollState.current) < 0.5) {
+        scrollState.current = scrollState.target;
+    }
+
+    window.scrollTo(0, scrollState.current);
+
+    requestAnimationFrame(smoothWheelScroll);
+}
+
+smoothWheelScroll();
+</script>
+
 </body>
 </html>
