@@ -1272,16 +1272,11 @@ const scrollState = {
 <script>
 const scrollState = {
     current: window.scrollY,
-    target: window.scrollY,
-    dragging: false
+    target: window.scrollY
 };
 
-// マウスホイールによるスクロール
+// マウスホイールだけを滑らかにする
 window.addEventListener("wheel", function(event) {
-    if (scrollState.dragging) {
-        return;
-    }
-
     event.preventDefault();
 
     scrollState.target += event.deltaY;
@@ -1295,38 +1290,25 @@ window.addEventListener("wheel", function(event) {
     );
 }, { passive: false });
 
-// スクロールバーをドラッグしている間は自動スクロールを止める
-window.addEventListener("mousedown", function(event) {
-    const scrollbarWidth =
-        window.innerWidth - document.documentElement.clientWidth;
-
-    if (scrollbarWidth > 0 && event.clientX >= window.innerWidth - scrollbarWidth) {
-        scrollState.dragging = true;
-    }
-});
-
-window.addEventListener("mouseup", function() {
-    if (scrollState.dragging) {
-        scrollState.dragging = false;
-
-        // ドラッグ後の現在位置を同期
+// ブラウザ標準のスクロールバーなどで
+// スクロール位置が変更された場合は、その位置に同期する
+window.addEventListener("scroll", function() {
+    if (Math.abs(window.scrollY - scrollState.current) > 1) {
         scrollState.current = window.scrollY;
         scrollState.target = window.scrollY;
     }
 });
 
-// なめらかなスクロール
+// 滑らかなホイールスクロール
 function smoothWheelScroll() {
-    if (!scrollState.dragging) {
-        scrollState.current +=
-            (scrollState.target - scrollState.current) * 0.30;
+    scrollState.current +=
+        (scrollState.target - scrollState.current) * 0.30;
 
-        if (Math.abs(scrollState.target - scrollState.current) < 0.5) {
-            scrollState.current = scrollState.target;
-        }
-
-        window.scrollTo(0, scrollState.current);
+    if (Math.abs(scrollState.target - scrollState.current) < 0.5) {
+        scrollState.current = scrollState.target;
     }
+
+    window.scrollTo(0, scrollState.current);
 
     requestAnimationFrame(smoothWheelScroll);
 }
