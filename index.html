@@ -575,153 +575,78 @@ body.is-searching #tocPanel{
   }
 }
 
-/* ボットボタン */
-#botFab{
-  position: fixed;
-  right: 20px;
-  bottom: 20px;
+/* 販売ショップ */
+.shop-links {
+  width: 100%;
+  margin: 18px 0 22px;
+  padding: 14px 16px;
 
+  background: rgba(255,255,255,0.6);
+  border: 1px solid rgba(14,89,96,0.14);
+  border-radius: 14px;
+
+  box-sizing: border-box;
+}
+
+.shop-links-title {
+  margin-bottom: 10px;
+
+  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: rgba(14,89,96,0.88);
+}
+
+.shop-links-buttons {
   display: flex;
-  align-items: center;
   gap: 10px;
-
-  padding: 12px 16px;
-  border-radius: 999px;
-
-  border: 1px solid rgba(255,255,255,0.6);
-  background: linear-gradient(135deg, var(--sea), var(--sand));
-
-  color: var(--deep);
-  font-weight: 800;
-  font-size: 14px;
-
-  box-shadow: 0 12px 30px rgba(16,52,58,0.25);
-  cursor: pointer;
-  z-index: 9999;
-
-  backdrop-filter: blur(6px);
-
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
-#botFab:hover{
-  transform: translateY(-2px) scale(1.04);
-  box-shadow: 0 18px 40px rgba(16,52,58,0.3);
-}
+.shop-links-buttons a {
+  flex: 1;
 
-/* アイコン部分 */
-.bot-icon{
-  font-size: 18px;
-  line-height: 1;
-}
-
-/* テキスト */
-.bot-text{
-  white-space: nowrap;
-  letter-spacing: 0.02em;
-}
-
-/* スマホで圧迫しないよう少し縮める */
-@media (max-width: 600px){
-  #botFab{
-    padding: 10px 14px;
-    font-size: 13px;
-  }
-
-  .bot-text{
-    display: none; /* スマホはアイコンのみ */
-  }
-}
-
-/* モーダル */
-.bot-modal{
-  position: fixed;
-  inset: 0;
-  z-index: 10000;
   display: flex;
   align-items: center;
   justify-content: center;
-}
 
-.bot-modal-bg{
-  position: absolute;
-  inset: 0;
-  background: rgba(16,52,58,0.55);
-  backdrop-filter: blur(6px);
-}
+  min-width: 0;
+  padding: 9px 12px;
 
-/* 中身 */
-.bot-modal-content{
-  position: relative;
-  width: min(680px, 92%);
-  max-height: 90vh;
-  overflow-y: auto;
-
-  background: rgba(255,255,255,0.92);
-  border-radius: 22px;
-  padding: 0px 22px 20px;
-
-  box-shadow: 0 30px 80px rgba(16,52,58,0.35);
-  border: 1px solid rgba(255,255,255,0.6);
-}
-
-/* 閉じる */
-.bot-close{
-  position: absolute;
-  top: 10px;
-  right: 12px;
-  border: none;
-  background: transparent;
-  font-size: 20px;
-  cursor: pointer;
-}
-
-/* 本文 */
-.bot-modal-body{
-  margin-top: 12px;
-  font-size: 14.5px;
-  line-height: 1.8;
-}
-
-.bot-modal-body ul{
-  margin: 10px 0 0;
-  padding-left: 18px;
-}
-
-/* フッター */
-.bot-modal-footer{
-  margin-top: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-/* 同意 */
-.bot-consent{
-  font-size: 13.5px;
-  display: flex;
-  gap: 8px;
-  align-items: center;
-}
-
-/* リンクボタン */
-.bot-link{
-  display: inline-block;
-  text-align: center;
-  padding: 12px;
   border-radius: 999px;
+  background: rgba(59,199,214,0.12);
 
-  background: linear-gradient(135deg, var(--sea), var(--sand));
-  color: var(--deep);
+  font-size: 13px;
   font-weight: 700;
+  color: rgba(14,89,96,0.92);
 
   text-decoration: none;
-  transition: opacity 0.2s ease, transform 0.1s ease;
 }
 
-.bot-link.disabled{
-  pointer-events: none;
-  opacity: 0.4;
+.shop-links-buttons a:hover {
+  background: rgba(59,199,214,0.22);
+  text-decoration: none;
+}
+
+/* スマホ */
+@media (max-width: 600px){
+  .shop-links {
+    margin-top: 14px;
+    margin-bottom: 18px;
+    padding: 12px;
+  }
+
+  .shop-links-title {
+    font-size: 12px;
+  }
+
+  .shop-links-buttons {
+    gap: 8px;
+  }
+
+  .shop-links-buttons a {
+    padding: 9px 6px;
+    font-size: 12.5px;
+  }
 }
     
   </style>
@@ -731,10 +656,10 @@ body.is-searching #tocPanel{
   <div class="wrap" id="top">
     <header>
       <h1 class="title">『ハト タイルセット』シリーズ ヘルプ</h1>
-      <p class="subtitle">
-        <div class="alert alert-warning">⚠️このヘルプページはBOOTHおよびDLsiteで販売しているアオバト製素材専門の内容です。<br>
-        ⚠️Steamなどで販売している素材「ハトマップ」、「Useful」等の素材は、販売者様による規約が別途設けられておりますので、そちらの利用規約を厳守して下さい。</div>
-      </p>
+        <div class="alert-warning">
+          ⚠️このヘルプページはBOOTHおよびDLsiteで販売しているアオバト製素材専門の内容です。<br>
+          ⚠️Steamなどで販売している素材「ハトマップ」、「Useful」等の素材は、販売者様による規約が別途設けられておりますので、そちらの利用規約を厳守して下さい。
+        </div>
 
       <div class="topbar">
         <div class="search" role="search" aria-label="FAQページ内検索">
@@ -744,11 +669,21 @@ body.is-searching #tocPanel{
       </div>
     </header>
     
-    <nav class="page-links hide-on-search">
-    <a href="https://hatotilesets.fanbox.cc/posts/5546537">🔙ヘルプ記事に戻る</a>
-    <a href="https://aobato-tileset.booth.pm/">🛒BOOTH ショップに戻る</a>
-    <a href="https://www.dlsite.com/home/circle/profile/=/maker_id/RG51773.html">🛒DLsite ショップに戻る</a>
-    </nav>
+<nav class="shop-links hide-on-search">
+  <div class="shop-links-title">
+    『ハト タイルセット』シリーズ ショップはこちら
+  </div>
+
+  <div class="shop-links-buttons">
+    <a href="https://aobato-tileset.booth.pm/" target="_blank" rel="noopener noreferrer">
+      🛒 BOOTH
+    </a>
+
+    <a href="https://www.dlsite.com/home/circle/profile/=/maker_id/RG51773.html" target="_blank" rel="noopener noreferrer">
+      🛒 DLsite
+    </a>
+  </div>
+</nav>
 
     <div class="grid">
       <!-- 目次 -->
